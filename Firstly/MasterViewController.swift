@@ -38,6 +38,10 @@ class MasterViewController: UITableViewController {
         }
     }
 
+    func authenticated() -> Bool {
+        return false
+    }
+    
     override func viewWillAppear(animated: Bool) {
         self.clearsSelectionOnViewWillAppear = self.splitViewController!.collapsed
         super.viewWillAppear(animated)
@@ -46,6 +50,12 @@ class MasterViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        if (!authenticated()) {
+            self.performSegueWithIdentifier("LoginSegue", sender: nil)
+        }
     }
 
     func insertNewObject(sender: AnyObject) {
@@ -113,7 +123,6 @@ class MasterViewController: UITableViewController {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
-
 
 }
 

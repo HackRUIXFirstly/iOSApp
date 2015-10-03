@@ -61,6 +61,50 @@
             </objects>
             <point key="canvasLocation" x="709" y="129"/>
         </scene>
+        <!--Login View Controller-->
+        <scene sceneID="AGD-nD-bIO">
+            <objects>
+                <viewController storyboardIdentifier="LoginViewController" id="HmV-Y2-gwd" customClass="LoginViewController" customModule="Firstly" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="avF-aS-mxr"/>
+                        <viewControllerLayoutGuide type="bottom" id="nQ2-8i-Nc9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Gej-sv-XTz">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login With The Book of the Face" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IYW-XM-DkJ">
+                                <rect key="frame" x="176" y="195" width="249" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hKT-So-hfE">
+                                <rect key="frame" x="281" y="285" width="38" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginButtonPressed:" destination="HmV-Y2-gwd" eventType="touchUpInside" id="Aeo-TE-NGS"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" red="0.15410047769546509" green="0.41306763887405396" blue="0.69063264131546021" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="hKT-So-hfE" firstAttribute="centerX" secondItem="IYW-XM-DkJ" secondAttribute="centerX" id="LOM-Ju-lKm"/>
+                            <constraint firstItem="hKT-So-hfE" firstAttribute="centerY" secondItem="Gej-sv-XTz" secondAttribute="centerY" id="dse-7C-a1N"/>
+                            <constraint firstItem="IYW-XM-DkJ" firstAttribute="centerX" secondItem="Gej-sv-XTz" secondAttribute="centerX" id="kfT-id-9X7"/>
+                            <constraint firstItem="hKT-So-hfE" firstAttribute="top" secondItem="IYW-XM-DkJ" secondAttribute="bottom" constant="69" id="w7Q-at-3mh"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JTE-Rn-CXj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="732" y="-1375"/>
+        </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
             <objects>
@@ -158,6 +202,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Master" id="Zdf-7t-Un8"/>
+                    <connections>
+                        <segue destination="HmV-Y2-gwd" kind="presentation" identifier="LoginSegue" id="un3-qF-Og0"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
