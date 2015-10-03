@@ -9,39 +9,58 @@
 import Foundation
 import RealmSwift
 
+class DataModel {
+    var realm: Realm?
+    init() {
+        var r: Realm?
+        do {
+            r = try Realm()
+        } catch {
+            print(error)
+        }
+        self.realm = r
+    }
+}
+
+class Image: Object {
+    dynamic var imageData: NSData
+    required init() {
+        self.imageData = NSData()
+        super.init()
+    }
+    
+    init(imageData: NSData) {
+        self.imageData = imageData
+        super.init()
+    }
+}
+
 class Post: Object {
-    dynamic var imageData: NSData?
-    dynamic var postText: String
-    dynamic var poster: User
-    dynamic var postDate: NSDate
-    dynamic var postID: String
+    dynamic var imageData: Image? = nil
+    dynamic var postText: String = ""
+    dynamic var poster: User? = nil
+    dynamic var postDate: NSDate = NSDate()
+    dynamic var postID: String = ""
     var image: UIImage? {
         guard let imageData = imageData  else {
             return nil
         }
-        let i = UIImage(data: imageData)
+        let i = UIImage(data: imageData.imageData)
         return i;
     }
     override static func primaryKey() -> String? {
         return "postID"
     }
     
-    required init() {
-        self.postText = ""
-        self.poster = User()
-        self.postDate = NSDate()
-        self.postID = ""
-        self.imageData = nil
-        super.init()
-    }
-    
-    init(postText: String, poster: User, postDate: NSDate, postID: String, imageData: NSData?){
+    convenience init(postText: String, poster: User, postDate: NSDate, postID: String, imageData: NSData?){
+        self.init()
         self.postText = postText
         self.poster = poster
         self.postDate = postDate
         self.postID = postID
-        self.imageData = imageData
-        super.init()
+        if let imageData = imageData {
+            self.imageData = Image(imageData: imageData)
+        }
     }
     
     convenience init(postText: String, poster: User, postDate: NSDate, postID: String, image: UIImage){
@@ -51,19 +70,14 @@ class Post: Object {
 }
 
 class User: Object {
-    dynamic var userID: String
-    dynamic var username: String
+    dynamic var userID: String = ""
+    dynamic var username: String = ""
     var posts: [Post] {
         return linkingObjects(Post.self, forProperty: "poster")
     }
-    required init() {
-        userID = ""
-        username = ""
-        super.init()
-    }
-    init(username: String, userID: String) {
+    convenience init(username: String, userID: String) {
+        self.init()
         self.username = username
         self.userID = userID
-        super.init()
     }
 }
