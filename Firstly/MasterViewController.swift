@@ -27,6 +27,8 @@ class MasterViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+        self.tableView.estimatedRowHeight = 60.0
 
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
@@ -49,7 +51,7 @@ class MasterViewController: UITableViewController {
     func insertNewObject(sender: AnyObject) {
         if let realm = self.dataModel.realm {
             let postID = NSUUID().UUIDString
-            let post = Post(postText: "New Post", poster: self.currentUser, postDate: NSDate(), postID: postID, imageData:nil)
+            let post = Post(postText: "New Post.", poster: self.currentUser, postDate: NSDate(), postID: postID, imageData:nil)
             realm.write{ () -> Void in
                 realm.add(post)
             }
@@ -86,10 +88,15 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("TextCell", forIndexPath: indexPath) as! PostListTableViewCell
 
-        let object = objects?[indexPath.row].postDate.description
-        cell.textLabel!.text = object
+        let object = objects?[indexPath.row]
+        
+        cell.usernameLabel.text = object?.poster?.username
+        cell.timestampLabel.text = object?.formattedDate()
+        cell.postTextLabel.text = object?.postText
+        
+        
         return cell
     }
 

@@ -10,6 +10,10 @@ import UIKit
 
 class PostListTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var profilePictureView: UIImageView!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var postTextLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

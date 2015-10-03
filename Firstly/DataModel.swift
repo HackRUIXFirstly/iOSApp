@@ -67,6 +67,14 @@ class Post: Object {
         let imageData = UIImageJPEGRepresentation(image, 0.7)
         self.init(postText: postText, poster: poster, postDate:postDate, postID: postID, imageData: imageData)
     }
+    
+    func formattedDate() -> String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.timeStyle = .ShortStyle
+        dateFormatter.dateStyle = .ShortStyle
+        dateFormatter.locale = NSLocale.currentLocale()
+        return dateFormatter.stringFromDate(self.postDate)
+    }
 }
 
 class User: Object {
