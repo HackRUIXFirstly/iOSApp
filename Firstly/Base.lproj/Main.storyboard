@@ -231,7 +231,13 @@
                             <outlet property="delegate" destination="7bK-jq-Zjz" id="RA6-mI-bju"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Master" id="Zdf-7t-Un8"/>
+                    <navigationItem key="navigationItem" title="Master" id="Zdf-7t-Un8">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="SGh-wh-exX">
+                            <connections>
+                                <segue destination="qqN-G1-xaT" kind="presentation" identifier="NewExperienceSegue" id="pfH-Ml-nuq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="HmV-Y2-gwd" kind="presentation" identifier="LoginSegue" id="un3-qF-Og0"/>
                     </connections>
@@ -239,6 +245,60 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="709" y="-630"/>
+        </scene>
+        <!--New Experience View Controller-->
+        <scene sceneID="vtK-jm-87l">
+            <objects>
+                <viewController id="qqN-G1-xaT" customClass="NewExperienceViewController" customModule="Firstly" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jo9-qu-4TS"/>
+                        <viewControllerLayoutGuide type="bottom" id="1j7-tV-rmv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="R2d-eL-uab">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uuZ-eh-BEd">
+                                <rect key="frame" x="20" y="96" width="560" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today was the first time I ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hcx-FN-buX">
+                                <rect key="frame" x="196" y="51" width="209" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="26w-fH-ddJ">
+                                <rect key="frame" x="276" y="134" width="49" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Submit"/>
+                                <connections>
+                                    <action selector="submitPressed:" destination="qqN-G1-xaT" eventType="touchUpInside" id="74T-PS-sJx"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="26w-fH-ddJ" firstAttribute="centerX" secondItem="uuZ-eh-BEd" secondAttribute="centerX" id="Huh-HR-ZeP"/>
+                            <constraint firstItem="Hcx-FN-buX" firstAttribute="centerX" secondItem="R2d-eL-uab" secondAttribute="centerX" id="P7i-VM-H8b"/>
+                            <constraint firstItem="Hcx-FN-buX" firstAttribute="top" secondItem="jo9-qu-4TS" secondAttribute="bottom" constant="31" id="WCf-8E-nxA"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="uuZ-eh-BEd" secondAttribute="leading" id="aOU-oG-5J4"/>
+                            <constraint firstItem="26w-fH-ddJ" firstAttribute="top" secondItem="uuZ-eh-BEd" secondAttribute="bottom" constant="8" id="b1q-Ik-cfH"/>
+                            <constraint firstItem="uuZ-eh-BEd" firstAttribute="top" secondItem="Hcx-FN-buX" secondAttribute="bottom" constant="24" id="tTg-Oj-VkM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="uuZ-eh-BEd" secondAttribute="trailing" id="vIa-wi-FQi"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textField" destination="uuZ-eh-BEd" id="EpT-zQ-UEK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oDb-9u-SlN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1404" y="-630"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="r7l-gg-dq7">

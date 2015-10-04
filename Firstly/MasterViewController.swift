@@ -20,7 +20,7 @@ class MasterViewController: UITableViewController {
     
     var objects : Results<Post>? {
         if let realm = self.dataModel.realm {
-            return realm.objects(Post).sorted("postDate")
+            return realm.objects(Post).sorted("postDate", ascending: false)
         }
         return nil
     }
@@ -32,8 +32,6 @@ class MasterViewController: UITableViewController {
         self.tableView.rowHeight = UITableViewAutomaticDimension;
         self.tableView.estimatedRowHeight = 60.0
 
-        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
-        self.navigationItem.rightBarButtonItem = addButton
         if let split = self.splitViewController {
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
@@ -65,18 +63,7 @@ class MasterViewController: UITableViewController {
     }
 
     func insertNewObject(sender: AnyObject) {
-        if let realm = self.dataModel.realm {
-            let postID = NSUUID().UUIDString
-            let post = Post(postText: "New Post.", poster: self.currentUser, postDate: NSDate(), postID: postID, imageData:nil)
-            realm.write{ () -> Void in
-                realm.add(post)
-            }
-            if let count = self.objects?.count {
-                let indexPath = NSIndexPath(forItem: count-1, inSection: 0)
-                self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            }
-            
-        }
+        
     }
 
     // MARK: - Segues
@@ -90,6 +77,23 @@ class MasterViewController: UITableViewController {
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
+        }
+        if segue.identifier == "NewExperienceSegue" {
+            let controller = segue.destinationViewController as! NewExperienceViewController
+            controller.currentUser = currentUser
+            controller.completionHandler = {(post: Post, completion: NewExperienceCallback) in
+                if let realm = self.dataModel.realm {
+                    realm.write{ () -> Void in
+                        realm.add(post)
+                    }
+                    if let count = self.objects?.count {
+                        let indexPath = NSIndexPath(forItem: 0, inSection: 0)
+                        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    }
+                    completion(true)
+                }
+            }
+            
         }
     }
 
