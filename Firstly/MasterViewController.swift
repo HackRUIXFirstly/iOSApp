@@ -108,6 +108,9 @@ class MasterViewController: UITableViewController {
 
         let object = objects?[indexPath.row]
         
+        cell.backgroundColor = UIColor.clearColor()
+        cell.contentView.backgroundColor = UIColor.clearColor()
+        
         cell.usernameLabel.text = object?.poster?.username
         cell.timestampLabel.text = object?.formattedDate()
         cell.postTextLabel.text = object?.postText
@@ -131,4 +134,6 @@ class MasterViewController: UITableViewController {
     }
 
 }
+
+
 

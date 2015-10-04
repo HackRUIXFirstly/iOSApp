@@ -4,3 +4,4 @@ use_frameworks!
 pod 'Moya'
 pod 'RealmSwift'
 pod 'FBSDKLoginKit'
+pod 'ChameleonFramework/Swift'
