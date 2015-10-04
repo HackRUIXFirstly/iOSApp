@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKCoreKit
 import ChameleonFramework
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -28,6 +29,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         UINavigationBar.appearance().translucent = false
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.flatWhiteColor()]
         UINavigationBar.appearance().tintColor = UIColor.flatWhiteColor()
+        
+        var config = Realm.Configuration()
+        config.schemaVersion = 1
+        config.migrationBlock = {migration, oldSchemaVersion in
+            if oldSchemaVersion < 1 {
+                
+            }
+        }
+        
+        Realm.Configuration.defaultConfiguration = config
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions);
     }

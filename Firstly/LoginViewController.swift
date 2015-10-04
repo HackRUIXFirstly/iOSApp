@@ -36,7 +36,24 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             let provider = MoyaProvider<FirstlyAPI>()
             provider.request(FirstlyAPI.FacebookLogin(accessToken.tokenString)) { (data, statusCode, response, error) -> () in  
                 if statusCode == 200 {
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    FBSDKGraphRequest(graphPath: "me", parameters: nil).startWithCompletionHandler({ (connection, result, error) -> Void in
+                        if error == nil {
+                            if let result = result as? [String: AnyObject] {
+                                let name = result["name"] as! String
+                                let user = User(username: name, userID: accessToken.userID)
+                                let dm = DataModel()
+                                if let realm = dm.realm {
+                                    realm.write {
+                                        realm.add(user)
+                                    }
+                                }
+
+                            }
+                            self.dismissViewControllerAnimated(true, completion: nil)
+                        }
+                    })
+                    
+                    
                 }
             }
         }

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Moya
+import FBSDKCoreKit
 
 typealias NewExperienceCallback = (Bool) -> ()
 typealias NewExperienceCompletionHandler = (Post, NewExperienceCallback) -> ()
@@ -29,16 +31,22 @@ class NewExperienceViewController: UIViewController {
     }
     
     @IBAction func submitPressed(sender: AnyObject) {
-        if self.textField.text?.characters.count > 0 {
-            self.textField.resignFirstResponder()
-            let post = Post(postText: self.textField.text!, poster: currentUser, postDate: NSDate(), postID: NSUUID().UUIDString, imageData: nil)
-            let callback: NewExperienceCallback = {(success: Bool) in
-                if success {
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                }
-            }
-            completionHandler(post, callback)
-        }
+//        if self.textField.text?.characters.count > 0 {
+//            self.textField.resignFirstResponder()
+//            
+//            let facebookToken = FBSDKAccessToken.currentAccessToken().tokenString
+//            
+//            let provider = MoyaProvider<FirstlyAPI>()
+//            provider.request(FirstlyAPI.PostExperience(facebookToken,textField.text!), completion: { (data, statusCode, response, error) -> () in
+//                let post = Post(postText: self.textField.text!, poster: , postDate: NSDate(), postID: NSUUID().UUIDString, imageData: nil)
+//                let callback: NewExperienceCallback = {(success: Bool) in
+//                    if success {
+//                        self.dismissViewControllerAnimated(true, completion: nil)
+//                    }
+//                }
+//                completionHandler(post, callback)
+//            })
+//        }
     }
 
     /*

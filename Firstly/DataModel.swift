@@ -83,9 +83,21 @@ class User: Object {
     var posts: [Post] {
         return linkingObjects(Post.self, forProperty: "poster")
     }
+    
+    override static func primaryKey() -> String? {
+        return "userID"
+    }
     convenience init(username: String, userID: String) {
         self.init()
         self.username = username
         self.userID = userID
+    }
+    
+    class func getUserWithUserID(userID: String) -> User? {
+        let dataModel = DataModel()
+        if let realm = dataModel.realm {
+            return realm.objectForPrimaryKey(User.self, key: userID)
+        }
+        return nil
     }
 }

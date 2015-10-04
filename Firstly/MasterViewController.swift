@@ -16,7 +16,7 @@ class MasterViewController: UITableViewController {
     let dataModel = DataModel()
     var auth: Bool = false
     
-    let currentUser = User(username: "mike", userID: "12345")
+    var currentUser = User(username: "mike", userID: "12345")
     
     var objects : Results<Post>? {
         if let realm = self.dataModel.realm {
@@ -40,6 +40,9 @@ class MasterViewController: UITableViewController {
 
     func authenticated() -> Bool {
         if (FBSDKAccessToken.currentAccessToken() != nil) {
+            if let u =  User.getUserWithUserID(FBSDKAccessToken.currentAccessToken().userID) {
+                self.currentUser = u
+            }
             return true
         } else {
             return false
