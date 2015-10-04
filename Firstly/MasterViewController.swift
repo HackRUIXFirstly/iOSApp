@@ -8,11 +8,13 @@
 
 import UIKit
 import RealmSwift
+import FBSDKCoreKit
 
 class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
     let dataModel = DataModel()
+    var auth: Bool = false
     
     let currentUser = User(username: "mike", userID: "12345")
     
@@ -39,7 +41,11 @@ class MasterViewController: UITableViewController {
     }
 
     func authenticated() -> Bool {
-        return false
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            return true
+        } else {
+            return false
+        }
     }
     
     override func viewWillAppear(animated: Bool) {

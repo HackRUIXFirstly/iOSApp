@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -21,9 +22,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
         splitViewController.delegate = self
         
+        
 
         
-        return true
+        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions);
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -41,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
+        FBSDKAppEvents.activateApp()
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 

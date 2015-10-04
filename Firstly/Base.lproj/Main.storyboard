@@ -80,15 +80,12 @@
                                 <color key="textColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hKT-So-hfE">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hKT-So-hfE" customClass="FBSDKLoginButton">
                                 <rect key="frame" x="281" y="285" width="38" height="30"/>
                                 <animations/>
-                                <state key="normal" title="Login">
+                                <state key="normal">
                                     <color key="titleColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="loginButtonPressed:" destination="HmV-Y2-gwd" eventType="touchUpInside" id="Aeo-TE-NGS"/>
-                                </connections>
                             </button>
                         </subviews>
                         <animations/>
@@ -100,6 +97,9 @@
                             <constraint firstItem="hKT-So-hfE" firstAttribute="top" secondItem="IYW-XM-DkJ" secondAttribute="bottom" constant="69" id="w7Q-at-3mh"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="facebookLoginButton" destination="hKT-So-hfE" id="pOi-wa-Ep1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JTE-Rn-CXj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
