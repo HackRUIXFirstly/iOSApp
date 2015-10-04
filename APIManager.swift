@@ -52,7 +52,13 @@ extension FirstlyAPI: MoyaTarget {
     }
     
     public var parameterEncoding: Moya.ParameterEncoding {
-        return .JSON
+        switch self {
+        case .Feed(_):
+            Moya.ParameterEncoding.URL
+        default:
+            return Moya.ParameterEncoding.JSON
+        }
+        return Moya.ParameterEncoding.JSON
     }
     
     public var sampleData: NSData {

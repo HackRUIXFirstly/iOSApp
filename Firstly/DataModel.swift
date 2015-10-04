@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import FBSDKCoreKit
 
 class DataModel {
     var realm: Realm?
@@ -27,6 +28,10 @@ class Image: Object {
     required init() {
         self.imageData = NSData()
         super.init()
+    }
+    var image: UIImage? {
+        let i = UIImage(data: self.imageData)
+        return i;
     }
     
     init(imageData: NSData) {
@@ -80,6 +85,7 @@ class Post: Object {
 class User: Object {
     dynamic var userID: String = ""
     dynamic var username: String = ""
+    dynamic var image: Image?
     var posts: [Post] {
         return linkingObjects(Post.self, forProperty: "poster")
     }
@@ -91,6 +97,7 @@ class User: Object {
         self.init()
         self.username = username
         self.userID = userID
+        
     }
     
     class func getUserWithUserID(userID: String) -> User? {

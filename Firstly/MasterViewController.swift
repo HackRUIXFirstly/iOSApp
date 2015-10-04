@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import FBSDKCoreKit
 import Moya
+import SwiftyJSON
 
 class MasterViewController: UITableViewController {
 
@@ -17,7 +18,7 @@ class MasterViewController: UITableViewController {
     let dataModel = DataModel()
     var auth: Bool = false
     
-    var currentUser = User(username: "mike", userID: "12345")
+    var currentUser:User!
     
     var objects : Results<Post>? {
         if let realm = self.dataModel.realm {
@@ -32,6 +33,7 @@ class MasterViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
         self.tableView.rowHeight = UITableViewAutomaticDimension;
         self.tableView.estimatedRowHeight = 60.0
+        self.tableView.allowsSelection = false
 
         if let split = self.splitViewController {
             let controllers = split.viewControllers
@@ -43,16 +45,51 @@ class MasterViewController: UITableViewController {
         if (FBSDKAccessToken.currentAccessToken() != nil) {
             if let u =  User.getUserWithUserID(FBSDKAccessToken.currentAccessToken().userID) {
                 self.currentUser = u
-                let provider = MoyaProvider<FirstlyAPI>()
-                let tokenString = FBSDKAccessToken.currentAccessToken().tokenString
-                provider.request(.Feed(tokenString), completion: { (data, statusCode, response, error) -> () in
-                    print(data)
-                })
+                loadPosts()
             }
             return true
         } else {
             return false
         }
+    }
+    
+    func loadPosts() {
+        let provider = MoyaProvider<FirstlyAPI>()
+        let tokenString = FBSDKAccessToken.currentAccessToken().tokenString
+        provider.request(.Feed(tokenString), completion: { (data, statusCode, response, error) -> () in
+            if let data = data where statusCode == 200 {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+                    let json = JSON(data:data)
+                    let dm = DataModel()
+                    for (_, subJSON):(String, JSON) in json {
+                        let userID = subJSON["_user"]["facebookId"].string!
+                        let username = subJSON["_user"]["facebookName"].string!
+                        var user = User(username: username, userID: userID)
+                            dm.realm?.write{
+                                dm.realm?.add(user, update:true)
+                            }
+                        let dateString = subJSON["dateCreated"].string!
+                        let postText = subJSON["text"].string!
+                        let postID = subJSON["_id"].string!
+                        
+                        let formatter = NSDateFormatter()
+                        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                        let posix = NSLocale(localeIdentifier: "en_US_POSIX")
+                        formatter.locale = posix
+                        let date = formatter.dateFromString(dateString)
+                        
+                        let post = Post(postText: postText, poster: user, postDate: date!, postID: postID, imageData: nil)
+                        dm.realm?.write {
+                            dm.realm?.add(post, update: true)
+                        }
+                    }
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.tableView.reloadData()
+                    })
+                })
+            }
+        })
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -71,9 +108,6 @@ class MasterViewController: UITableViewController {
         }
     }
 
-    func insertNewObject(sender: AnyObject) {
-        
-    }
 
     // MARK: - Segues
 
@@ -95,10 +129,10 @@ class MasterViewController: UITableViewController {
                     realm.write{ () -> Void in
                         realm.add(post)
                     }
-                    if let count = self.objects?.count {
-                        let indexPath = NSIndexPath(forItem: 0, inSection: 0)
+                    let indexPath = NSIndexPath(forItem: 0, inSection: 0)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    }
+                    })
                     completion(true)
                 }
             }
@@ -127,6 +161,12 @@ class MasterViewController: UITableViewController {
         cell.usernameLabel.text = object?.poster?.username
         cell.timestampLabel.text = object?.formattedDate()
         cell.postTextLabel.text = object?.postText
+        
+        let poster = object?.poster
+        let image = poster?.image?.image
+        if let image = image {
+            cell.profilePictureView.image = image
+        }
         
         
         return cell
