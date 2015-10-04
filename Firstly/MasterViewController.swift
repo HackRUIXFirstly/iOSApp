@@ -30,10 +30,11 @@ class MasterViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.navigationItem.leftBarButtonItem = self.editButtonItem()
         self.tableView.rowHeight = UITableViewAutomaticDimension;
         self.tableView.estimatedRowHeight = 60.0
         self.tableView.allowsSelection = false
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl?.addTarget(self, action: Selector("loadPosts"), forControlEvents: .ValueChanged)
 
         if let split = self.splitViewController {
             let controllers = split.viewControllers
@@ -54,6 +55,7 @@ class MasterViewController: UITableViewController {
     }
     
     func loadPosts() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         let provider = MoyaProvider<FirstlyAPI>()
         let tokenString = FBSDKAccessToken.currentAccessToken().tokenString
         provider.request(.Feed(tokenString), completion: { (data, statusCode, response, error) -> () in
@@ -84,9 +86,14 @@ class MasterViewController: UITableViewController {
                         }
                     }
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                        self.refreshControl?.endRefreshing()
                         self.tableView.reloadData()
                     })
                 })
+            } else {
+                self.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
             }
         })
 
