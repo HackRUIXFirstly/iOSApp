@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import FBSDKCoreKit
+import Moya
 
 class MasterViewController: UITableViewController {
 
@@ -42,6 +43,11 @@ class MasterViewController: UITableViewController {
         if (FBSDKAccessToken.currentAccessToken() != nil) {
             if let u =  User.getUserWithUserID(FBSDKAccessToken.currentAccessToken().userID) {
                 self.currentUser = u
+                let provider = MoyaProvider<FirstlyAPI>()
+                let tokenString = FBSDKAccessToken.currentAccessToken().tokenString
+                provider.request(.Feed(tokenString), completion: { (data, statusCode, response, error) -> () in
+                    print(data)
+                })
             }
             return true
         } else {

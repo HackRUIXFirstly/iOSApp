@@ -12,6 +12,7 @@ import Moya
 public enum FirstlyAPI {
     case FacebookLogin(String)
     case PostExperience(String, String)
+    case Feed(String)
 }
 
 extension FirstlyAPI: MoyaTarget {
@@ -23,6 +24,8 @@ extension FirstlyAPI: MoyaTarget {
             return "/api/auth/facebook"
         case .PostExperience(_, _):
             return "/api/experience"
+        case .Feed(_):
+            return "/api/user/feed"
         }
     }
     
@@ -32,6 +35,8 @@ extension FirstlyAPI: MoyaTarget {
             return .POST
         case .PostExperience(_, _):
             return .POST
+        case .Feed(_):
+            return .GET
         }
     }
     
@@ -41,6 +46,8 @@ extension FirstlyAPI: MoyaTarget {
             return ["access_token":token]
         case .PostExperience(let token, let text):
             return ["access_token":token, "text":text]
+        case .Feed(let token):
+            return["access_token":token]
         }
     }
     
