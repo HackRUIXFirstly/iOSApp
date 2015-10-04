@@ -9,6 +9,7 @@
 import UIKit
 import Moya
 import FBSDKCoreKit
+import SwiftyJSON
 
 typealias NewExperienceCallback = (Bool) -> ()
 typealias NewExperienceCompletionHandler = (Post, NewExperienceCallback) -> ()
@@ -31,22 +32,29 @@ class NewExperienceViewController: UIViewController {
     }
     
     @IBAction func submitPressed(sender: AnyObject) {
-//        if self.textField.text?.characters.count > 0 {
-//            self.textField.resignFirstResponder()
-//            
-//            let facebookToken = FBSDKAccessToken.currentAccessToken().tokenString
-//            
-//            let provider = MoyaProvider<FirstlyAPI>()
-//            provider.request(FirstlyAPI.PostExperience(facebookToken,textField.text!), completion: { (data, statusCode, response, error) -> () in
-//                let post = Post(postText: self.textField.text!, poster: , postDate: NSDate(), postID: NSUUID().UUIDString, imageData: nil)
-//                let callback: NewExperienceCallback = {(success: Bool) in
-//                    if success {
-//                        self.dismissViewControllerAnimated(true, completion: nil)
-//                    }
-//                }
-//                completionHandler(post, callback)
-//            })
-//        }
+        if self.textField.text?.characters.count > 0 {
+            self.textField.resignFirstResponder()
+            
+            let facebookToken = FBSDKAccessToken.currentAccessToken().tokenString
+            
+            let provider = MoyaProvider<FirstlyAPI>()
+            provider.request(FirstlyAPI.PostExperience(facebookToken, textField.text!), completion: { (data, statusCode, response, error) -> () in
+                if let data = data {
+                    let json = JSON(data:data)
+                    if let postID = json["_id"].string {
+                        let post = Post(postText: self.textField.text!, poster: self.currentUser, postDate: NSDate(), postID: postID, imageData: nil)
+                        let callback: NewExperienceCallback = {(success: Bool) in
+                            if success {
+                                self.dismissViewControllerAnimated(true, completion: nil)
+                            }
+                        }
+                        
+                        self.completionHandler(post, callback)
+                    }
+                }
+                
+            })
+        }
     }
 
     /*

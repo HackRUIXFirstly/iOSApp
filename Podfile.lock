@@ -29,12 +29,14 @@ PODS:
   - Realm/Headers (0.95.2)
   - RealmSwift (0.95.2):
     - Realm (= 0.95.2)
+  - SwiftyJSON (2.3.0)
 
 DEPENDENCIES:
   - ChameleonFramework/Swift
   - FBSDKLoginKit
   - Moya
   - RealmSwift
+  - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 8edbab00802a752bb5240cc2abe70e7e881488ad
@@ -45,5 +47,6 @@ SPEC CHECKSUMS:
   Moya: aa0fba7f9c98a0bcb95f2d4222ee848dcb0e4b8e
   Realm: 4c026902041bb39c4bd083ebc5e88f4f17973d72
   RealmSwift: ac7822fe7ab8dca7fa979f4d576793b111d6dce1
+  SwiftyJSON: 8d6b61a70277ef2a5d710d372e06e7e2d87fb9e4
 
 COCOAPODS: 0.38.2
